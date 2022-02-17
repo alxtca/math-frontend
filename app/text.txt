@@ -1,0 +1,1 @@
+mongodb+srv://alex_simpleapp:Babaika_0@cluster0.zcols.mongodb.net/ReactCourse?retryWrites=true&w=majority
