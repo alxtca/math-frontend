@@ -1,0 +1,226 @@
+/*
+:root {
+  --form-color1: #38CDA3;
+  --form-color2: #5D89FE;
+  --form-color3: #D86535;
+  --form-color4: #DAEB89;
+  --form-color5: #EDEEFF;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body{ 
+  height:100vh; 
+  margin:0; 
+  display:flex; 
+  flex-direction:column;
+}
+*/
+
+/* general stuff */
+.align-a-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.box {
+  border: 2px solid black;
+  border-radius: 5px;
+}
+
+.clickable {
+  cursor: pointer;
+}
+
+form {
+  display: flex;
+  flex-wrap: wrap;
+  /*justify-content: space-around;*/
+  /*justify-content: space-between;*/
+}
+.hideit {
+  visibility: hidden;
+}
+
+/* content container */
+.content {
+  margin-left: 15%;
+  margin-right: 15%;
+  padding: 10px;
+}
+
+.frow {
+  display: flex;
+}
+.fcol {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+
+
+                       /* mode */
+.mode {
+  flex: 1;
+  /*display: none; nope, doesn't work as expected*/
+  background-color: var(--form-color2);
+  border-radius: 10px;
+}
+.mode > * {
+  font-size: 30px;
+  font-weight: 500px;
+  color: var(--form-color5);
+}
+
+.mode-header {
+  /*justify-content: space-around;*/
+}
+
+.mode-select label {
+  font-size: 2rem;
+  margin-left: 45%;
+  font-weight: bold;
+  line-height: 1.2; /*radio button relative to label text*/
+  /*grid for sake of gap */
+  display: grid;
+  grid-template-columns: 1em auto;
+  gap: 0.5em;
+
+  /*margin-top: 1em;*/
+}
+/* custom radio button part 1 */
+input[type="radio"] {
+  appearance: none;
+  margin: 0;
+  /* custom rasion circles*/
+  font: inherit;
+  color: currentColor;
+  border: 0.15em solid currentColor;
+  border-radius: 50%;
+  width: 1.15em;
+  height: 1.15em;
+  /* use grid */
+  display: grid;
+  place-content: center;
+
+}
+/* custom radio button part 2 */ /* create :before element */ 
+input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-color4);
+}
+/* custom radio button part 3*/ /* make :before element visible when cheked*/
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
+/* action area */
+.buttons {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.pause, .home {
+  width: 50px;
+  height: 50px;
+  /*margin: 0 30px 0 30px;*/
+}
+.happy {
+  width: 120px;
+  height: 120px;
+  margin-right: 35px;
+}
+
+.action-form {
+  /*margin-left: 30%;*/
+  font-size: 70px;
+  padding: 10px auto 10px auto;
+  /*height: 150px;*/
+}
+
+.action-form > * {
+  color: var(--form-color3);
+}
+
+.action-form > .item-1{
+  flex: 2;
+  text-align: end;
+}
+.action-form > .item-2 {
+  /*flex:1;*/
+  text-align: center;
+}
+.action-form > .item-3 {
+  flex: 2;
+}
+
+.act {
+  background-color: var(--form-color1);
+  border-radius: 10px;
+  height: auto;
+  flex: 2;
+  margin-left: 20px;
+}
+.act > * {
+  /*flex: 2;*/
+}
+.act-header {
+  justify-content: space-between;
+  font-size: 36px;
+  font-weight: 500;
+  /*height: 50px;*/
+  color: var(--form-color5);
+  /*flex: 1;*/
+}
+.act-header > * {
+  flex: 1;
+}
+.task {
+  /*height: 150px;*/
+}
+.play {
+  height: 300px;
+}
+.act-footer {
+  display: flex;
+  justify-content: right;
+}
+
+.action-input {
+  background-color: rgba(0,0,0,0.01);
+  border: none;
+  /*border-bottom: 1px solid gray;*/
+  box-shadow:5px 15px 15px 1px rgba(0,0,0,0.06);
+  border-radius: 10px;
+  /*width: 250px;*/
+  height: 90px;
+  margin: 5px;
+  padding: 12px;
+  font-size: 70px;
+  color: var(--form-color3);
+  display: block;
+  transition: box-shadow 1s;
+}
+.action-input:focus {
+  outline:none;
+  box-shadow:5px 20px 20px 1px rgba(0,0,0,0.06);
+  background-color: var(--form-color4);
+}
+.action-input:hover {
+  outline:none;
+  box-shadow:5px 20px 20px 1px rgba(0,0,0,0.15);
+  background-color: var(--form-color4);
+}
+
+
+
+/* radion buttons */

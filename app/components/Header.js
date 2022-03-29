@@ -19,6 +19,11 @@ function Header(props) {
               ComplexApp
             </Link>
           </h4>
+          <h4 className="my-0 mr-md-auto font-weight-normal">
+            <Link to="/math-select_mode" className="text-white">
+              MathApp
+            </Link>
+          </h4>
           {!props.staticEmpty ? headerContent : ""}   
         </div>
       </header>

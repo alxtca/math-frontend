@@ -17,6 +17,12 @@ import Footer from "./components/Footer"
 import About from "./components/About"
 import Terms from "./components/Terms"
 import Home from "./components/Home"
+
+//math components
+import MathSelectMode from "./components/MathSelectMode"
+import MathChallenge from "./components/MathChallenge"
+import MathCompleted from "./components/MathCompleted"
+
 //import CreatePost from "./components/CreatePost"
 const CreatePost = React.lazy(() => import("./components/CreatePost"))
 
@@ -152,6 +158,8 @@ function Main() {
               <Route path="/create-post" element={<CreatePost />} />
               <Route path="/about-us" element={<About />} />
               <Route path="/terms" element={<Terms />} />
+              <Route path="/math-select_mode" element={<MathSelectMode />}/>
+              <Route path="/math-challenge" element={<MathChallenge />}/>
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

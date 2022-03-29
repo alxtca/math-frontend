@@ -46,6 +46,24 @@ config = {
   module: {
     rules: [
       {
+        test: /\.(png|jpg|gif)$/,
+        use: {
+            loader: 'url-loader',
+          },
+      },
+ /*     {
+        test: /\.(png|jpe?g|gif)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+          },
+        ],
+      },*/
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader"],
+      },
+      {
         test: /\.js$/,
         exclude: /(node_modules)/,
         use: {
