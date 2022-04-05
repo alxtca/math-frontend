@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect, useContext } from "react"
 import styles from "./math-challenge.module.css"
 import { useImmer } from "use-immer"
 import { useLocation, Link } from "react-router-dom"
 import ReactTooltip from "react-tooltip"
+import Axios from "axios"
+import StateContext from "../StateContext"
 //components
 import MathCompleted from "./MathCompleted"
 //images
@@ -13,7 +15,9 @@ import Play from "./pics/play.png"
 import Home from "./pics/home.png"
 
 function MathChallenge(props) {
-  //extract mode value send with Link
+  //to have access to user token, to store challenge results
+  const appState = useContext(StateContext)
+  //extract mode value that was sent with Link
   const location = useLocation()
   const mode = location.state.from
   //to render correct symbol in html. utilize unicode values.
@@ -25,7 +29,7 @@ function MathChallenge(props) {
         return String.fromCharCode(8722)
       case "divide":
         return String.fromCharCode(247)
-      case "times":
+      case "mult":
         return String.fromCharCode(215)
     }
   })() //immediately invoked function express
@@ -52,9 +56,34 @@ function MathChallenge(props) {
     rate: 0, //calculate answers per minute
     wrong: 0, //total-correct
     stars: 0,
+    pointsEarned: "loading...",
     //radio button selected
-    level: "1"
+    level: "1",
+    //total coefficient for score calculation on backend
+    totalCoefficient: 0
   })
+
+  // on game completion send game stats to backend. Only if user is logged in(use stateContext() to check login status).
+  useEffect(async() => {
+    if (state.status === "done" && appState.loggedIn) {
+      try {
+        let results = await Axios.post('/math-challenge-results',
+         {token: appState.user.token, mode: mode, level: state.level, totCoef: state.totalCoefficient})
+        console.log("points earned: " + results.data)
+        //update state to show points earned on screen
+        setState(draft => {
+          draft.pointsEarned = results.data
+        })
+      } catch(e) {
+        console.log("failed to send data to server")
+      }  
+    }
+    else if (state.status === "done" && !appState.loggedIn) {
+      console.log("To store results please login.")
+      //add flash message
+    }
+  }, [state.status])
+
     //update timer when game starts
   useEffect(() => {
     if(state.status === "play") {
@@ -79,7 +108,7 @@ function MathChallenge(props) {
       //calculate timebonus coefficient (max possible value shall be 1) ---------- this should be affected by level
       var timebonusCoefficient = (state.total/gameTimeDuration)*(parseInt(state.level))
       if (timebonusCoefficient > 1) {timebonusCoefficient = 1}
-      //total coefficient will be used on backend to add to total player score
+      //total coefficient will be used on backend to add to total player score. and level played.
       const totalCoefficient = accuracyCoefficient*timebonusCoefficient
       // calculate #of stars earned (40% - 1, 70% - 2, 90% - 3) 
       const starsCount = (function (){
@@ -98,8 +127,9 @@ function MathChallenge(props) {
         draft.accuracy = parseInt(accuracyCoefficient * 100)
         draft.rate = answersPerMinute
         draft.wrong = state.total - state.correct
-        draft.status = "done"
         draft.stars = starsCount
+        draft.totalCoefficient = totalCoefficient
+        draft.status = "done"
       }) 
     }
   }, [state.level, state.current])
@@ -119,7 +149,7 @@ function MathChallenge(props) {
       4: { min: 11, max: 29 },
       5: { min: 21, max: 99 }
     },
-    times: {
+    mult: {
       1: { min: 2, max: 5 },
       2: { min: 2, max: 7 },
       3: { min: 4, max: 9 },
@@ -152,13 +182,13 @@ function MathChallenge(props) {
   }, [state.status])
 */
   function regenerateNums() {
-    //to avoid similar numbers in several times in a row
+    //to avoid similar numbers several times in a row
     //compare previous number state.firstNum to new number newNum1. Only then dispatch state update
     var newNum1
     var newNum2
     do {
       //generate new numbers depending on mode selected
-      if (mode === "plus" || mode === "times") {
+      if (mode === "plus" || mode === "mult") {
         newNum1 = generateRandomNumber()
         newNum2 = generateRandomNumber()
       } else if (mode === "minus") {
@@ -233,7 +263,7 @@ function MathChallenge(props) {
           draft.correctAnswer = false
         })
       }
-    } else if (mode === "times") {
+    } else if (mode === "mult") {
       if (state.firstNum * state.secondNum === parseInt(userInput)) {
         setState(draft => {
           draft.correct++
@@ -254,7 +284,7 @@ function MathChallenge(props) {
     e.preventDefault()
     setState(draft => {draft.current++})
     checkUserAnswer()
-    //clean input field
+    //clear input field
     setUserInput("")
   }
 
@@ -269,15 +299,16 @@ function MathChallenge(props) {
     })
   }
 
+//--RENDER COMPONENTS
   if (state.status === "pause") {
     return (
       <>
         <div className={[styles.content, styles.frow].join(" ")}>
           {/*<!-- settings area -->*/}
           <div className={[styles.fcol, styles.mode].join(" ")}>
-            <div className={[styles.frow, styles["align-a-center"]].join(" ")}>
+            <div className={[styles.frow, styles["align-a-center"], styles["mode-header"]].join(" ")}>
               <div>Mode:</div>
-              <div>{mode}</div>
+              <div>{modeSymbol}</div>
             </div>
 
             <div className={[styles.fcol, styles["mode-select"]].join(" ")}>
@@ -339,7 +370,8 @@ function MathChallenge(props) {
   }
 
   if (state.status === "done") {
-    return <MathCompleted starsCount={state.stars} gametime={theTime.duration} accuracy={state.accuracy} rate={state.rate} wrong={state.wrong} setState={setState} setModeSelected={props.setModeSelected} />
+    return <MathCompleted points={state.pointsEarned} starsCount={state.stars} gametime={theTime.duration} accuracy={state.accuracy} 
+    rate={state.rate} wrong={state.wrong} setState={setState} setModeSelected={props.setModeSelected} loggedin={appState.loggedIn}/>
   }
 // if mode === "play"
   return (

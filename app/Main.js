@@ -44,7 +44,7 @@ import StateContext from "./StateContext"
 import DispatchContext from "./DispatchContext"
 
 function Main() {
-  //the appState (initial value. Updated value is in "state" variable)
+  //the appState (initial value. Updated value is in "state" variable in useImmerReducer)
   const initialState = {
     loggedIn: Boolean(localStorage.getItem("complexappToken")),
     flashMessages: [],
@@ -103,11 +103,10 @@ function Main() {
         return draft
     }
   }
-
   //tpo keep and update global state
   const [state, dispatch] = useImmerReducer(ourReducer, initialState)
 
-  //To reduce usage of local storage to only when logging in and logging out
+  //To reduce usage of local storage to only when logging in and logging out. (these values will be keept in memmory for faster performance)
   useEffect(() => {
     if (state.loggedIn) {
       localStorage.setItem("complexappToken", state.user.token)

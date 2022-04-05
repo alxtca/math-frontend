@@ -20,6 +20,10 @@ h1 {
   align-items: center;
 }
 
+.link:hover {
+  text-decoration: none;
+}
+
 .clickable {
   cursor: pointer;
 }

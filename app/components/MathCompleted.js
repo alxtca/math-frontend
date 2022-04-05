@@ -15,6 +15,7 @@ function MathCompleted(props) {
       draft.current = 0
       draft.correct = 0
       draft.correctAnswer = true
+      draft.pointsEarned = 0
     })
   }
 
@@ -45,6 +46,15 @@ function MathCompleted(props) {
                 <span>Wrong :</span>&nbsp; {props.wrong}
               </p>
             </div>
+            {/* points can be earned only by logged in users*/}
+            {props.loggedin ?             
+            <div>
+              <p>
+                <span>Points :</span>&nbsp; {props.points}
+              </p>
+            </div> 
+            : ""}
+
           </div>
 
           <div className={[styles.frow, styles.fot].join(" ")}>
