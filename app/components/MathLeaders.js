@@ -7,7 +7,8 @@ function MathLeaders(props) {
 
   return (
     <div className={styles.player}>
-      <Link data-for="profile" data-tip="User Profile" to={`/profile/${props.leader.username}`} className="mr-2">
+      <Link data-for="profile" data-tip="User Profile" to={`/profile/${props.leader.username}`} 
+      className={[styles.avatar].join(" ")}>
         <img className={styles["avatar-tiny"]} src={props.leader.avatar} />
       </Link>
       <ReactTooltip place="bottom" id="profile" className="custom-tooltip" />{" "}
@@ -16,7 +17,7 @@ function MathLeaders(props) {
         <p>{props.leader.username}</p>
       </div>
 
-      <div className={styles["align-a-center"]}>
+      <div className={[styles.alignTextEnd].join(" ")}>
         <p>{props.leader.totalMathScore}</p>
       </div>
     </div>

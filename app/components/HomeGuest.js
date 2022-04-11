@@ -248,8 +248,17 @@ useEffect(() => {
     <Page title="Welcome">
       <div className="row align-items-center">
         <div className="col-lg-7 py-3 py-md-5">
-          <h1 className="display-3">Remember Writing?</h1>
-          <p className="lead text-muted">Are you sick of short tweets and impersonal &ldquo;shared&rdquo; posts that are reminiscent of the late 90&rsquo;s email forwards? We believe getting back to actually writing is the key to enjoying the internet again.</p>
+          <h1 className="display-3">About this project</h1>
+          <p className="lead text-muted">
+          This page is based on a result of a course <a href="https://www.udemy.com/course/react-for-the-rest-of-us/">React For The Rest Of Us. </a>
+          ComplexApp is the functionlality that is build throughout the course.</p>
+          <p className="lead text-muted">MathApp is functionality build by me with the use of knowledge from the course.</p>
+          <p className="lead text-muted">What I did:</p>
+          <ul className="lead text-muted">
+            <li>Idea and design of MathApp</li>
+            <li>Implementation of html, css, react(.js)</li>
+            <li>New routes and functions on backend</li>
+          </ul>
         </div>
         <div className="col-lg-5 pl-lg-5 pb-3 py-lg-5">
 
