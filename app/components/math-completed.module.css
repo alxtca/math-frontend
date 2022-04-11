@@ -65,7 +65,7 @@
 .stats > div {
   flex: 1;
 }
-span {
+.stats span {
   width: 220px;
   clear: left;
   float: left;

@@ -158,7 +158,7 @@ function Main() {
               <Route path="/about-us" element={<About />} />
               <Route path="/terms" element={<Terms />} />
               <Route path="/math-select_mode" element={<MathSelectMode />}/>
-              <Route path="/math-challenge" element={<MathChallenge />}/>
+              <Route path="/math-challenge" element={<MathChallenge />}/> 
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>

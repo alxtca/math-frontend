@@ -51,7 +51,7 @@ function MathSelectMode() {
             </div>
 
             {/* <!-- Players on leaderboard --> */}
-            {leaders.map((obj, id) => <MathLeaders leader={obj} key={id}/> )}
+            {leaders.map((obj, id) => <MathLeaders leader={obj} key={id} id={id}/> )}
 
           </div>
 

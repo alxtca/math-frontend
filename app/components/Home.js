@@ -13,7 +13,7 @@ function Home() {
     isLoading: true,
     feed: []
   })
-
+//get posts from backend on first render only
   useEffect(() => {
     //for clean up
     const ourRequest = Axios.CancelToken.source()

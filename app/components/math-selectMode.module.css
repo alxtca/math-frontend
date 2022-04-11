@@ -8,9 +8,10 @@ body{
 }
 */
 
-h1 {
+.mode-row h1 {
   font-size: 120px;
   color: var(--form-color5);
+  /*color: black;*/
 }
 
 /* general stuff */
